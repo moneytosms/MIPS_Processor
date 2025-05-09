@@ -1,6 +1,42 @@
-# MIPS Simulator
+# MIPS Processor Simulator
 
-A simple Python-based MIPS processor simulator that supports essential MIPS instructions and features.
+A Python-based simulator for a MIPS processor that supports various instruction types:
+
+- R-type (add, sub, sll, slt, xor, or, nor, and, jr)
+- I-type (addi, lw, sw, beq, bne)
+- J-type (j, jal)
+
+## Features
+
+- Simulates 32 general-purpose MIPS registers
+- Supports stack operations
+- Implements memory hierarchy
+- Supports jr $ra for function returns
+- Interactive menu interface
+
+## Usage
+
+Run the simulator from the command line:
+
+```bash
+python proj2.py
+```
+
+### Menu Options
+
+1. Load instructions (as hex words)
+2. Execute cycles
+3. Show all registers
+4. Help - Learn about MIPS
+5. Exit
+
+## Example: Factorial Calculation
+
+To calculate factorial of 5, enter these instructions:
+
+```
+0x20080005 0x20090001 0x11000004 0x01280018 0x00004812 0x2108FFFF 0x08100002
+```
 
 ## Overview
 
@@ -49,42 +85,6 @@ The simulator uses the standard MIPS memory layout:
 
 - `j` - Jump
 - `jal` - Jump and link (function calls)
-
-## Usage
-
-Run the simulator with Python:
-
-```
-python proj2.py
-```
-
-The interactive menu provides options to:
-
-1. Load instructions as hex words
-2. Execute a specified number of cycles
-3. Show register contents
-4. Access help information
-5. Exit the simulator
-
-## Example: Factorial Calculation
-
-The following MIPS program calculates the factorial of 5:
-
-```
-0x20080005  # addi $t0, $zero, 5 (n=5)
-0x20090001  # addi $t1, $zero, 1 (result=1)
-0x11000004  # beq $t0, $zero, 4 (if n==0, exit loop)
-0x01280018  # mult $t1, $t0 (result * n)
-0x00004812  # mflo $t1 (move result from lo register)
-0x2108FFFF  # addi $t0, $t0, -1 (n--)
-0x08100002  # j 0x00400008 (jump to loop check)
-```
-
-To run this example:
-
-1. Load these instructions using option 1
-2. Execute with option 2 (20 cycles should be enough)
-3. View the result in the registers with option 3 ($t1 should contain 120)
 
 ## Function Calls
 
