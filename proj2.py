@@ -393,7 +393,8 @@ def main_menu():
         choice = input("Select an option: ")
         if choice == '1':
             data = input("Enter hex words separated by spaces: ")
-            addr = 0x00400000  # reset load address each time
+            addr = 0x00400000
+            cpu.program_counter= 0x00400000 # reset load address each time
             for w in data.split():
                 mem.store_word(addr, int(w, 16))
                 addr += 4
