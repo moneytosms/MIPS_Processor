@@ -16,10 +16,13 @@ A Python-based simulator for a MIPS processor that supports various instruction 
 
 ## Usage
 
+Clone the repo to your desired location.
 Run the simulator from the command line:
 
 ```bash
-python proj2.py
+git clone https://github.com/moneytosms/MIPS_Processor.git
+cd MIPS_Processor
+python processor.py
 ```
 
 ### Menu Options
@@ -122,3 +125,12 @@ For more information about MIPS architecture and assembly:
 2. MIPS Assembly Programming Tutorial: https://chortle.ccsu.edu/AssemblyTutorial/index.html
 3. Book: 'See MIPS Run' by Dominic Sweetman
 4. Book: 'Computer Organization and Design' by Patterson and Hennessy
+
+## Pipeline Visualization
+
+Also contains Pipeline visualization tool in a menu driven format, to run the program, enter the repository directory, run from CLI.
+```bash
+git clone https://github.com/moneytosms/MIPS_Processor.git
+cd MIPS_Processor
+python pipeline.py
+```
