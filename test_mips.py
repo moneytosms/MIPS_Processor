@@ -3,6 +3,7 @@ MIPS Simulator Test Suite
 This file contains comprehensive tests for the MIPS simulator
 """
 
+
 from proj2 import RegisterFile, Memory, CPU
 
 def test_register_file():
