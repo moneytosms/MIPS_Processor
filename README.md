@@ -2,7 +2,7 @@
 
 A Python-based simulator for a MIPS processor that supports various instruction types:
 
-- R-type (add, sub, sll, slt, xor, or, nor, and, jr)
+- R-type (add, sub, sll, slt, xor, or, nor, jr, mult, div, mflo)
 - I-type (addi, lw, sw, beq, bne)
 - J-type (j, jal)
 
