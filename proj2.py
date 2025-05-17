@@ -271,6 +271,21 @@ class CPU:
             dec = self.decode(instr)
             self.execute(dec)
 
+    def reset(self):
+        """
+        Reset CPU state: registers, memory, and program counter.
+        
+        Args:
+            CPU object - The current CPU object with which the simulator is running
+        """
+        self.registers = RegisterFile()
+        self.memory = Memory()
+        self.program_counter = 0x00400000
+        self.registers.write(29, 0x100000)  # Reset stack pointer
+        self.registers.write(32, 0)
+        print("The simulator has been reset successfully.")
+        print("New Session".center(80,'='))         # Reset lo register
+
 
 def print_registers(reg_file):
     """
@@ -291,6 +306,7 @@ def print_registers(reg_file):
         print(f"{reg_names[i]} (${i:02}): {val:#010x}")
     print(f"lo: {reg_file.registers[32]:#010x}")
     print("======================\n")
+
 
 
 def print_help():
@@ -357,6 +373,8 @@ def print_help():
     print("===========================\n")
 
 
+
+
 def main_menu():
     """
     Main menu for the MIPS simulator.
@@ -370,7 +388,8 @@ def main_menu():
         print("2) Execute cycles")
         print("3) Show all registers")
         print("4) Help - Learn about MIPS")
-        print("5) Exit")
+        print("5) Reset Simulator")
+        print("6) Exit")
         choice = input("Select an option: ")
         if choice == '1':
             data = input("Enter hex words separated by spaces: ")
@@ -385,9 +404,12 @@ def main_menu():
             print(f"Executed {n} cycles.")
         elif choice == '3':
             print_registers(cpu.registers)
+            print(f"The program counter is at address: {cpu.program_counter:#010x}")
         elif choice == '4':
             print_help()
         elif choice == '5':
+            cpu.reset()
+        elif choice == '6':
             print("Exiting simulator.")
             break
         else:
