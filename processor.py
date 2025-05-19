@@ -287,13 +287,9 @@ class CPU:
             CPU object - The current CPU object with which the simulator is running
         """
         cpu= CPU(Memory())
-        # cpu.registers = RegisterFile()
-        # cpu.program_counter = 0x00400000
-        # cpu.registers.write(29, 0x100000)  # Reset stack pointer
-        # cpu.registers.write(32, 0)
         print("The simulator has been reset successfully.")
         print("New Session".center(80,'='))   
-        return cpu      # Reset lo register
+        return cpu
 
 
 def print_registers(reg_file):
@@ -403,17 +399,17 @@ def main_menu():
             while(1):
                 
                 mode=input("Mode (a=>append, w=>write): ")
-                if mode.lower()=="w":
+                if mode.lower()=="w": #Implementing write mode
                     cpu=cpu.reset()
                     data = input("Enter hex words separated by spaces: ")
                     addr = 0x00400000
-                    cpu.program_counter= 0x00400000 # reset load address each time
+                    cpu.program_counter= 0x00400000 
                     for w in data.split():
                         cpu.memory.store_word(addr, int(w, 16))
                         addr += 4
                     print("Instructions loaded.")
                     break
-                elif mode.lower() == "a":
+                elif mode.lower() == "a":  #Implementing append mode
                     data = input("Enter hex words separated by spaces: ")
                     addr = cpu.program_counter
                     for w in data.split():
