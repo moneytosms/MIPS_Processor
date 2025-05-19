@@ -129,7 +129,7 @@ class CPU:
             The 32-bit instruction word
         """
         instr = self.memory.load_word(self.program_counter)
-        self.program_counter += 4  # Move to next instruction
+        # self.program_counter += 4  # Move to next instruction
         return instr
 
     def decode(self, instr):
@@ -176,6 +176,7 @@ class CPU:
             decoded: The decoded instruction tuple from decode()
         """
         t = decoded[0]
+        pc_updated=False
 
         # R-type instructions
         if t == 'R':
@@ -199,6 +200,7 @@ class CPU:
                 self.registers.write(rd, v1 & v2)
             elif fn == 0x08:  # jr
                 self.program_counter = self.registers.read(rs)
+                pc_updated=True
             elif fn == 0x18:  # mult
                 # In a real MIPS, this would set both hi and lo registers
                 product = v1 * v2
@@ -236,12 +238,14 @@ class CPU:
                 if self.registers.read(rs) == self.registers.read(rt):
                     # Branch targets are relative to the next instruction
                     # So we need to multiply by 4 to get byte offset
+                    pc_updated=True
                     self.program_counter = self.program_counter + (imm * 4)
                     
             elif op == 0x05:  # bne
                 if self.registers.read(rs) != self.registers.read(rt):
                     # Branch targets are relative to the next instruction
                     # So we need to multiply by 4 to get byte offset
+                    pc_updated=True
                     self.program_counter = self.program_counter + (imm * 4)
 
         # J-type instructions
@@ -251,13 +255,15 @@ class CPU:
             target = (self.program_counter & 0xF0000000) | (addr << 2)
             
             if op == 0x02:  # j
+                pc_updated=True
                 self.program_counter = target
-                
             elif op == 0x03:  # jal
                 # Save return address in $ra (r31)
-                self.registers.write(31, self.program_counter)
+                self.registers.write(31, self.program_counter+4)
+                pc_updated=True
                 # Jump to target address
                 self.program_counter = target
+        return pc_updated
 
     def run(self, cycles=1):
         """
@@ -269,7 +275,9 @@ class CPU:
         for _ in range(cycles):
             instr = self.fetch()
             dec = self.decode(instr)
-            self.execute(dec)
+            pc_updated=self.execute(dec)
+            if not pc_updated:
+                self.program_counter+=4
 
     def reset(self):
         """
@@ -278,13 +286,14 @@ class CPU:
         Args:
             CPU object - The current CPU object with which the simulator is running
         """
-        self.registers = RegisterFile()
-        self.memory = Memory()
-        self.program_counter = 0x00400000
-        self.registers.write(29, 0x100000)  # Reset stack pointer
-        self.registers.write(32, 0)
+        cpu= CPU(Memory())
+        # cpu.registers = RegisterFile()
+        # cpu.program_counter = 0x00400000
+        # cpu.registers.write(29, 0x100000)  # Reset stack pointer
+        # cpu.registers.write(32, 0)
         print("The simulator has been reset successfully.")
-        print("New Session".center(80,'='))         # Reset lo register
+        print("New Session".center(80,'='))   
+        return cpu      # Reset lo register
 
 
 def print_registers(reg_file):
@@ -380,8 +389,7 @@ def main_menu():
     Main menu for the MIPS simulator.
     Allows the user to load instructions, execute the program, and view register state.
     """
-    mem = Memory()
-    cpu = CPU(mem)
+    cpu = CPU(Memory())
     while True:
         print("\n--- MIPS Simulator Menu ---")
         print("1) Load instructions (hex words)")
@@ -392,13 +400,29 @@ def main_menu():
         print("6) Exit")
         choice = input("Select an option: ")
         if choice == '1':
-            data = input("Enter hex words separated by spaces: ")
-            addr = 0x00400000
-            cpu.program_counter= 0x00400000 # reset load address each time
-            for w in data.split():
-                mem.store_word(addr, int(w, 16))
-                addr += 4
-            print("Instructions loaded.")
+            while(1):
+                
+                mode=input("Mode (a=>append, w=>write): ")
+                if mode.lower()=="w":
+                    cpu=cpu.reset()
+                    data = input("Enter hex words separated by spaces: ")
+                    addr = 0x00400000
+                    cpu.program_counter= 0x00400000 # reset load address each time
+                    for w in data.split():
+                        cpu.memory.store_word(addr, int(w, 16))
+                        addr += 4
+                    print("Instructions loaded.")
+                    break
+                elif mode.lower() == "a":
+                    data = input("Enter hex words separated by spaces: ")
+                    addr = cpu.program_counter
+                    for w in data.split():
+                        cpu.memory.store_word(addr, int(w, 16))
+                        addr += 4
+                    print("Instructions loaded.")
+                    break
+                else:
+                    print("Invalid input, Please try again")
         elif choice == '2':
             n = int(input("Number of cycles to execute: "))
             cpu.run(n)
@@ -409,7 +433,7 @@ def main_menu():
         elif choice == '4':
             print_help()
         elif choice == '5':
-            cpu.reset()
+            cpu=cpu.reset()
         elif choice == '6':
             print("Exiting simulator.")
             break
