@@ -122,7 +122,7 @@ The simulator has been thoroughly tested with:
 
 For more information about MIPS architecture and assembly:
 
-1. MIPS Reference Sheet: https://inst.eecs.berkeley.edu/~cs61c/resources/MIPS_Green_Sheet.pdf
+1. MIPS Reference Sheet: [https://inst.eecs.berkeley.edu/~cs61c/resources/MIPS_Green_Sheet.pdf](https://courses.cs.washington.edu/courses/cse378/09au/MIPS_Green_Sheet.pdf)
 2. MIPS Assembly Programming Tutorial: https://chortle.ccsu.edu/AssemblyTutorial/index.html
 3. Book: 'See MIPS Run' by Dominic Sweetman
 4. Book: 'Computer Organization and Design' by Patterson and Hennessy
