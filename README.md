@@ -13,6 +13,7 @@ A Python-based simulator for a MIPS processor that supports various instruction 
 - Implements memory hierarchy
 - Supports jr $ra for function returns
 - Interactive menu interface
+- Append and write mode for compiler and interpreter style execution
 
 ## Usage
 
