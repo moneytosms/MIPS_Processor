@@ -371,7 +371,7 @@ def print_help():
     print("0x20080005 0x20090001 0x11000004 0x01280018 0x00004812 0x2108FFFF 0x08100002")
     
     print("\n--- Learn More about MIPS ---")
-    print("1. MIPS Reference Sheet: https://inst.eecs.berkeley.edu/~cs61c/resources/MIPS_Green_Sheet.pdf")
+    print("1. MIPS Reference Sheet: https://courses.cs.washington.edu/courses/cse378/09au/MIPS_Green_Sheet.pdf")
     print("2. MIPS Assembly Programming Tutorial: https://chortle.ccsu.edu/AssemblyTutorial/index.html")
     print("3. Book: 'See MIPS Run' by Dominic Sweetman")
     print("4. Book: 'Computer Organization and Design' by Patterson and Hennessy")
