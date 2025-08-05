@@ -1,5 +1,4 @@
-.cursor
-.cursorrules
+
 .vscode
 *.pyc
 *.pyo
@@ -7,13 +6,6 @@
 *.pyw
 *.pyz
 *.pywz
-
-*.log
-*.log.*
-*.log.*.*
-*.log.*.*.*
-*.log.*.*.*.*
-*.log.*.*.*.*.*
 test_mips.py
 
 
